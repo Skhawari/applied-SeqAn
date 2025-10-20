@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sajjad Khawari — GitHub Landing</title>
+  <meta name="description" content="Sajjad Khawari • Bioinformatics & ML — projects, languages, and links." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#0f1620; --card:#121a24; --text:#eaf2fb; --muted:#a9b8c7;
+      --brand:#5ac8fa; --accent:#a78bfa; --border:rgba(255,255,255,.08); --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:radial-gradient(900px 500px at -10% -20%, rgba(90,200,250,.12), transparent),radial-gradient(900px 500px at 110% -30%, rgba(167,139,250,.10), transparent), var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:980px;margin:0 auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--accent));display:grid;place-items:center;color:#001018;font-weight:800}
+    .links{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{border:1px solid var(--border);background:linear-gradient(180deg,#122031,#0f1b28);padding:10px 14px;border-radius:12px}
+    .btn.primary{background:linear-gradient(180deg,#5ac8fa,#3eb9f5);color:#04121a;border-color:transparent;font-weight:800}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:center;padding:28px 0}
+    h1{font-size:38px;line-height:1.05;margin:10px 0}
+    p.muted{color:var(--muted);}
+    .pill{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+    .metric{background:var(--card);border:1px solid var(--border);padding:14px;border-radius:14px;text-align:center}
+    .metric .n{font-weight:800;font-size:22px}
+    section{padding:10px 0}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+    .card h3{margin:0 0 6px;font-size:18px}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .tag{padding:4px 8px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px}
+    .lang-cloud{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    footer{color:var(--muted);text-align:center;margin:32px 0 10px;font-size:13px}
+    @media(max-width:860px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.grid{grid-template-columns:1fr} h1{font-size:30px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="avatar">SK</div>
+        <div>
+          <strong style="display:block">Sajjad Khawari</strong>
+          <span style="color:var(--muted);font-size:12px">Bioinformatics • ML • Genomics</span>
+        </div>
+      </div>
+      <div class="links">
+        <a class="btn" href="https://www.linkedin.com/in/sajjad-khawari/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn primary" href="https://github.com/Skhawari" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <span class="pill">Open‑source • AI • Bioinformatics</span>
+        <h1>Hi, I’m Sajjad — I build practical pipelines and ML for real‑world biology.</h1>
+        <p class="muted">On this page you’ll find a quick snapshot: languages I use, a few highlighted repositories, and links to connect.</p>
+        <div class="metrics">
+          <div class="metric"><div class="n" id="repoCount">—</div><div class="lab">Public repos</div></div>
+          <div class="metric" id="starMetric"><div class="n" id="starCount">—</div><div class="lab" id="starLabel">Total stars</div></div>
+          <div class="metric"><div class="n" id="years">—</div><div class="lab">Years on GitHub</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Languages & Tools</h3>
+        <div id="langCloud" class="lang-cloud"></div>
+        <p class="muted" style="margin-top:8px;font-size:12px">Auto‑detected from public repos.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="margin:8px 0 10px">Featured Repositories</h2>
+      <div id="projectGrid" class="grid"></div>
+    </section>
+
+    <footer>© <span id="year"></span> Sajjad Khawari • <a href="https://github.com/Skhawari" target="_blank" rel="noopener">github.com/Skhawari</a></footer>
+  </div>
+
+  <script>
+    const USER = 'Skhawari';
+    const GITHUB = 'https://github.com/Skhawari';
+
+    // utility: small tag element
+    const tag = (t)=>{const s=document.createElement('span');s.className='tag';s.textContent=t;return s};
+
+    async function main(){
+      // Profile
+      const uRes = await fetch(`https://api.github.com/users/${USER}`);
+      const u = await uRes.json();
+      document.getElementById('repoCount').textContent = u.public_repos ?? '—';
+      if(u.created_at){
+        const years = Math.max(1, Math.floor((Date.now()-new Date(u.created_at))/ (1000*60*60*24*365)));
+        document.getElementById('years').textContent = years;
+      }
+
+      // Repositories (first 100, sorted by updated)
+      const rRes = await fetch(`https://api.github.com/users/${USER}/repos?per_page=100&sort=updated`);
+      const repos = await rRes.json();
+      if(!Array.isArray(repos)) return;
+
+      // Language cloud (aggregate top languages across repos)
+      const langCount = new Map();
+      for(const r of repos){
+        if(r.language){ langCount.set(r.language, (langCount.get(r.language)||0)+1); }
+      }
+      const topLangs = Array.from(langCount.entries()).sort((a,b)=>b[1]-a[1]).slice(0,10);
+      const cloud = document.getElementById('langCloud');
+      if(topLangs.length===0){ cloud.append(tag('Python')); cloud.append(tag('C++')); }
+      else{
+        for(const [name,count] of topLangs){ cloud.append(tag(`${name} · ${count}`)); }
+      }
+
+      // Stars total
+      const stars = repos.reduce((s,r)=> s + (r.stargazers_count||0), 0);
+      const starMetric = document.getElementById('starMetric');
+      const starCountEl = document.getElementById('starCount');
+      const starLabelEl = document.getElementById('starLabel');
+      if(stars && stars > 0){
+        starCountEl.textContent = stars;
+        starLabelEl.textContent = 'Total stars';
+      } else {
+        // If no stars yet, show a friendly message
+        starCountEl.textContent = '—';
+        starLabelEl.textContent = 'Building in public ✨';
+      }
+
+      // Featured: pick a few interesting repos (by stars then recent updates)
+      const picks = repos
+        .filter(r=>!r.fork)
+        .sort((a,b)=> (b.stargazers_count-a.stargazers_count) || (new Date(b.updated_at)-new Date(a.updated_at)))
+        .slice(0,6);
+
+      const grid = document.getElementById('projectGrid');
+      if(picks.length===0){
+        const empty = document.createElement('div');
+        empty.className='card';
+        empty.innerHTML = `<h3>No public repositories yet</h3><p class="muted">Once you push projects, they’ll appear here automatically.</p>`;
+        grid.append(empty);
+      }else{
+        for(const r of picks){
+          const a = document.createElement('a');
+          a.className='card';
+          a.href=r.html_url; a.target='_blank'; a.rel='noopener';
+          const desc = r.description ? r.description : '—';
+          a.innerHTML = `
+            <h3>${r.name}</h3>
+            <p>${desc}</p>
+            <div class="tags">
+              <span class="tag">★ ${r.stargazers_count}</span>
+              <span class="tag">${r.language||'—'}</span>
+              <span class="tag">Updated ${new Date(r.updated_at).toLocaleDateString()}</span>
+            </div>`;
+          grid.append(a);
+        }
+      }
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    main().catch(()=>{});
+  </script>
+</body>
+</html>
